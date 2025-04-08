@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz - Priyanka Shahane</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">PS</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="cv.html">CV</a></li>     
+                <li><a href="research.html">Research</a></li>
+                <li><a href="award.html">Award</a></li>
+                <li><a href="expert.html">Invited as Expert</a></li>
+                <li><a href="study.html">Study Material</a></li>
+                <li><a href="quiz.html" class="active">Quiz</a></li>
+                <li><a href="other.html">Other Details</a></li>
+            </ul>  
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2 class="page-title">Interactive Quiz</h2>
+        <div class="quiz-box">
+            <div id="question">Loading question...</div>
+            <div id="options"></div>
+            <button onclick="nextQuestion()">Next</button>
+            <p id="result"></p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Priyanka Shahane. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        const quizData = [
+            {
+                question: "What does AI stand for?",
+                options: ["Automated Interface", "Artificial Intelligence", "Advanced Information", "Applied Innovation"],
+                answer: "Artificial Intelligence"
+            },
+            {
+                question: "Which language is commonly used for Machine Learning?",
+                options: ["HTML", "CSS", "Python", "SQL"],
+                answer: "Python"
+            },
+            {
+                question: "What is the full form of CPU?",
+                options: ["Central Process Unit", "Computer Processing Unit", "Central Processing Unit", "Control Processing Unit"],
+                answer: "Central Processing Unit"
+            }
+        ];
+
+        let currentIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const current = quizData[currentIndex];
+            document.getElementById("question").textContent = current.question;
+            const options = current.options.map(option => 
+                `<button onclick="checkAnswer(this)">${option}</button>`
+            ).join("");
+            document.getElementById("options").innerHTML = options;
+            document.getElementById("result").textContent = "";
+        }
+
+        function checkAnswer(button) {
+            const selected = button.textContent;
+            const correct = quizData[currentIndex].answer;
+            if (selected === correct) {
+                score++;
+                button.style.backgroundColor = "lightgreen";
+                document.getElementById("result").textContent = "Correct!";
+            } else {
+                button.style.backgroundColor = "salmon";
+                document.getElementById("result").textContent = `Wrong! Correct: ${correct}`;
+            }
+            Array.from(document.getElementById("options").children).forEach(btn => {
+                btn.disabled = true;
+            });
+        }
+
+        function nextQuestion() {
+            currentIndex++;
+            if (currentIndex < quizData.length) {
+                loadQuestion();
+            } else {
+                document.querySelector(".quiz-box").innerHTML = `<h3>Quiz Completed</h3><p>Your Score: ${score}/${quizData.length}</p>`;
+            }
+        }
+
+        // Load the first question
+        window.onload = loadQuestion;
+    </script>
+
+    <style>
+        .quiz-box {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #f2f2f2;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .quiz-box button {
+            margin: 10px 5px;
+            padding: 10px 20px;
+            border: none;
+            background-color: #e0e0e0;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+        .quiz-box button:hover {
+            background-color: #d0d0d0;
+        }
+
+        #result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</body>
+</html>
